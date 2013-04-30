@@ -21,7 +21,7 @@ CREATE TABLE mm_user (
 CREATE TABLE mm_license (
         id INT UNSIGNED NOT NULL AUTO_INCREMENT,
         name VARCHAR(100) NOT NULL,
-        url VARCHAR(2083),
+        url VARCHAR(2083) NOT NULL,
         not_commercial BOOLEAN NOT NULL,
 	PRIMARY KEY (id)
 );
@@ -56,7 +56,7 @@ CREATE TABLE mm_media (
         user_name VARCHAR(100) NOT NULL,
         excerpt text,
         content LONGTEXT NOT NULL,
-        original_creator VARCHAR(100) NOT NULL,
+        original_creator VARCHAR(100),
         original_url VARCHAR(2083),
         license_id TINYINT(1) UNSIGNED NOT NULL,
         license_name VARCHAR(100) NOT NULL,
