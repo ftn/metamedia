@@ -10,7 +10,7 @@ CREATE TABLE mm_axis (
 CREATE TABLE mm_user (
         id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 	name VARCHAR(100) NOT NULL,
-	salt CHAR(32) NOT NULL,
+	password_salt CHAR(32) NOT NULL,
 	password_hash CHAR(64) NOT NULL,
 	email VARCHAR(100) NOT NULL,
 	language VARCHAR(2) NOT NULL,
