@@ -26,28 +26,6 @@ CREATE TABLE mm_license (
 	PRIMARY KEY (id)
 );
 
-
-CREATE TABLE mm_media_axis (
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	media_id BIGINT UNSIGNED NOT NULL,
-	axis_id INT UNSIGNED NOT NULL,
-	axis_position TINYINT(1) UNSIGNED NOT NULL,
-	PRIMARY KEY (id),
-	FOREIGN KEY (media_id) REFERENCES media(id),
-	FOREIGN KEY (axis_id) REFERENCES axis(id)
-);
-
-
-CREATE TABLE mm_user_axis (
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-        user_id BIGINT UNSIGNED NOT NULL,
-        axis_id INT UNSIGNED NOT NULL,
-        axis_position TINYINT(1) UNSIGNED NOT NULL,
-        PRIMARY KEY (id),
-        FOREIGN KEY (user_id) REFERENCES user(id),
-        FOREIGN KEY (axis_id) REFERENCES axis(id)
-);
-
 CREATE TABLE mm_media (
         id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
         type BIGINT UNSIGNED NOT NULL,
@@ -67,3 +45,22 @@ CREATE TABLE mm_media (
         FOREIGN KEY (license_id) REFERENCES license(id)
 );
 
+CREATE TABLE mm_user_axis (
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        user_id BIGINT UNSIGNED NOT NULL,
+        axis_id INT UNSIGNED NOT NULL,
+        axis_position TINYINT(1) UNSIGNED NOT NULL,
+        PRIMARY KEY (id),
+        FOREIGN KEY (user_id) REFERENCES user(id),
+        FOREIGN KEY (axis_id) REFERENCES axis(id)
+);
+
+CREATE TABLE mm_media_axis (
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	media_id BIGINT UNSIGNED NOT NULL,
+	axis_id INT UNSIGNED NOT NULL,
+	axis_position TINYINT(1) UNSIGNED NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (media_id) REFERENCES media(id),
+	FOREIGN KEY (axis_id) REFERENCES axis(id)
+);
