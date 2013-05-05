@@ -31,7 +31,6 @@ CREATE TABLE mm_media (
         type BIGINT UNSIGNED NOT NULL,
         title text NOT NULL,
         user_id BIGINT UNSIGNED NOT NULL,
-        user_name VARCHAR(100) NOT NULL,
         excerpt text,
         content LONGTEXT NOT NULL,
         original_creator VARCHAR(100),
