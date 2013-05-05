@@ -1,3 +1,10 @@
+/* Allowed values for 'status' are one (active) and zero (deleted) */
+
+/* mm_axis: model different ideological positions. For example, in
+   Economics, Laissez-faire could be on the left and Interventionism
+   on the right. Both medias and users have a value that represents
+   their position on each ideological axis. */
+
 CREATE TABLE mm_axis (
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	name VARCHAR(100) NOT NULL,
@@ -6,6 +13,11 @@ CREATE TABLE mm_axis (
 	status TINYINT NOT NULL,
         PRIMARY KEY (id)
 );
+
+/* mm_user: store the user information. There is not much to say here,
+   as column names are mostly self-explanatory. Languages are stored
+   as ISO 639-1, those two-letter codes with which you are probably
+   already familiar: "EN" for English, "DE" for German, etc. */
 
 CREATE TABLE mm_user (
         id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -18,6 +30,12 @@ CREATE TABLE mm_user (
         PRIMARY KEY (id)
 );
 
+/* mm_license: the copyright license under which a media is published.
+   For example, the name of the license could be "CC BY-NC-SA" and the
+   URL point to "http://creativecommons.org/licenses/by-nc-sa/3.0/".
+   The 'non_commercial' column stores exactly that: whether the work
+   may be used for commercial purposes */
+
 CREATE TABLE mm_license (
         id INT UNSIGNED NOT NULL AUTO_INCREMENT,
         name VARCHAR(100) NOT NULL,
@@ -25,6 +43,11 @@ CREATE TABLE mm_license (
         not_commercial BOOLEAN NOT NULL,
 	PRIMARY KEY (id)
 );
+
+/* mm_media: medias (such as an article on a newspaper or a video on
+   Vimeo) are not automatically imported into our database: they must
+   be edited by an user, whose responsibility is to determine the
+   position of the media on the different ideological dimensions. */
 
 CREATE TABLE mm_media (
         id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -44,6 +67,11 @@ CREATE TABLE mm_media (
         FOREIGN KEY (license_id) REFERENCES license(id)
 );
 
+/* mm_user_axis: the position of an user on an ideological dimension.
+   The value of 'axis_position' must be in the range [0, 20], where
+   zero is the far left of the spectrum (e.g., Laissez-faire in
+   Economics) and twenty the far right (such as Interventionism) */
+
 CREATE TABLE mm_user_axis (
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
         user_id BIGINT UNSIGNED NOT NULL,
@@ -53,6 +81,9 @@ CREATE TABLE mm_user_axis (
         FOREIGN KEY (user_id) REFERENCES user(id),
         FOREIGN KEY (axis_id) REFERENCES axis(id)
 );
+
+/* mm_media_axis: exactly the same as mm_user_axis, representing the
+   position of a media on an ideological dimension */
 
 CREATE TABLE mm_media_axis (
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
