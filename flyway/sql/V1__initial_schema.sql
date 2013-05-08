@@ -33,14 +33,14 @@ CREATE TABLE mm_user (
 /* mm_license: the copyright license under which a media is published.
    For example, the name of the license could be "CC BY-NC-SA" and the
    URL point to "http://creativecommons.org/licenses/by-nc-sa/3.0/".
-   The 'non_commercial' column stores exactly that: whether the work
+   The 'allows_commercial' column stores exactly that: whether the work
    may be used for commercial purposes */
 
 CREATE TABLE mm_license (
         id INT UNSIGNED NOT NULL AUTO_INCREMENT,
         name VARCHAR(100) NOT NULL,
         url VARCHAR(2083) NOT NULL,
-        not_commercial BOOLEAN NOT NULL,
+        allows_commercial BOOLEAN NOT NULL,
 	PRIMARY KEY (id)
 );
 
