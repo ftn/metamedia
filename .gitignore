@@ -1,2 +1,3 @@
-Symfony/app/config/parameters.yml
 flyway/conf/flyway.properties
+CodeIgniter/application/config/config.php
+CodeIgniter/application/config/database.php

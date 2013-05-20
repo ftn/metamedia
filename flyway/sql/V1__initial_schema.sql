@@ -62,6 +62,7 @@ CREATE TABLE mm_media (
         license_name VARCHAR(100) NOT NULL,
         language CHAR(2) NOT NULL,
         status TINYINT UNSIGNED NOT NULL,
+        creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (id),
         FOREIGN KEY (user_id) REFERENCES mm_user(id),
         FOREIGN KEY (license_id) REFERENCES mm_license(id)

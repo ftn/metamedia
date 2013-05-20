@@ -38,9 +38,13 @@
 |
 */
 
-$route['default_controller'] = "welcome";
+$route['default_controller'] = '';
 $route['404_override'] = '';
 
+$route['api/get-axes'] = 'api/getAxes';
+$route['api/get-licenses'] = 'api/getLicenses';
+$route['api/put-media'] = 'api/putMedia';
+//$route['api/put-media/(:any)/(:any)'] = 'api/putMedia/$1/$2';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
