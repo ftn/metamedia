@@ -4,6 +4,7 @@
 # License: GNU GPLv3
 
 import pycountry
+import unittest
 
 def get_iso639(name):
     """ Return the two-letter code of a language.
@@ -28,10 +29,40 @@ def get_iso639(name):
     language = pycountry.languages.get(**kwargs)
     return language.alpha2.upper()
 
-if __name__ == "__main__":
 
-    # These three return 'EN'
-    print get_iso639("en")
-    print get_iso639("eng")
-    print get_iso639("english")
+class TestLanguageFunctions(unittest.TestCase):
+
+    def test_get_iso639(self):
+
+        def test_english(name):
+            """ Assert that 'EN' if returned for 'name' """
+            self.assertEqual('EN', get_iso639(name))
+
+        test_english('en')
+        test_english('eng')
+        test_english('english')
+        test_english('english ')
+        test_english(' english')
+        test_english('English')
+        test_english('eNGLiSH')
+
+        def test_german(name):
+            """ Assert that 'DE' is returned for 'name' """
+            self.assertEqual('DE', get_iso639(name))
+
+        test_german('de')
+        test_german('ger')
+        test_german('german')
+        test_german('german ')
+        test_german(' german ')
+        test_german('German')
+        test_german('gErmAn')
+
+        self.assertRaises(KeyError, get_iso639, 'Nadsat')
+        self.assertRaises(KeyError, get_iso639, 'Verdurian')
+        self.assertRaises(KeyError, get_iso639, 'Dothraki')
+
+
+if __name__ == "__main__":
+    unittest.main()
 
