@@ -12,6 +12,7 @@ class MetaMedia(object):
 
     AXES_URL = "http://localhost/index.php/api/get-axes"
     LICENSES_URL = "http://localhost/index.php/api/get-licenses"
+    PUT_MEDIA_URL = "http://localhost/index.php/api/put-media"
 
     def __init__(self, user, password):
         self.auth_data = {'user' : user, 'password' : password}
@@ -42,6 +43,29 @@ class MetaMedia(object):
         for license in licenses:
             yield License(*license.values())
 
+    def put_media(self, title, excerpt, content, creator, url, license, lang):
+        """ Add a media to the database.
+
+        The 'title', 'excerpt', 'content', 'creator' (refers to the original
+        author) and 'url' arguments are expected to be strings. 'license' must
+        be an object of the class License (see MetaMedia.get_license() method)
+        or, at the very least, have an attribute named 'id' which stores the ID
+        of the license in the database. Finally, 'lang' must be a string with
+        the two-letter code, in upper-case ('EN', 'DE', 'ES') of the language
+        of the media.
+
+        """
+
+        request_data = {'type' : 1, 'title' : title, 'excerpt' : excerpt,
+                        'content' : content, 'original-creator' : creator,
+                        'original-url' : url, 'license-id' : license.id,
+                        'language' : lang}
+
+        request_data.update(self.auth_data)
+        data = 'json=' + json.dumps(request_data)
+        headers = {'Content-Type': 'application/json'}
+        kwargs = dict(headers=headers, data=data)
+        requests.put(self.PUT_MEDIA_URL, **kwargs)
 
 if __name__ == "__main__":
 
