@@ -43,11 +43,11 @@ class Media_model extends CI_Model {
         print_r($this);
         if ($this->id == NULL) {
             $this->db->set(get_object_vars($this));
-            $this->db->insert($this::TABLE);
+            $this->db->insert(self::TABLE);
         } else {
             $this->db->where('id', $this->id);
             $this->db->set(get_object_vars($this));
-            $this->db->update($this::TABLE);
+            $this->db->update(self::TABLE);
         }
         return $this->db->affected_rows();
     }

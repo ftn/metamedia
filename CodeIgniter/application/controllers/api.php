@@ -17,6 +17,9 @@ class Api extends CI_Controller {
     public function getAxes() {
         if (($_SERVER['REQUEST_METHOD'] == 'GET') && ($_SERVER["CONTENT_TYPE"] == 'application/json')) {
             parse_str(file_get_contents('php://input'),$body);
+            if (get_magic_quotes_gpc()) {
+				$body['json'] = stripslashes($body['json']);
+			}
             $jsonVars = json_decode($body['json'], true);
             
             // TODO: authenticate
@@ -31,6 +34,9 @@ class Api extends CI_Controller {
     public function getLicenses() {
         if (($_SERVER['REQUEST_METHOD'] == 'GET') && ($_SERVER["CONTENT_TYPE"] == 'application/json')) {
             parse_str(file_get_contents('php://input'),$body);
+            if (get_magic_quotes_gpc()) {
+				$body['json'] = stripslashes($body['json']);
+			}
             $jsonVars = json_decode($body['json'], true);
             
             // TODO: authenticate
@@ -45,6 +51,9 @@ class Api extends CI_Controller {
     public function putMedia() {
         if (($_SERVER['REQUEST_METHOD'] == 'PUT') && ($_SERVER["CONTENT_TYPE"] == 'application/json')) {
             parse_str(file_get_contents('php://input'),$body);
+            if (get_magic_quotes_gpc()) {
+				$body['json'] = stripslashes($body['json']);
+			}
             $jsonVars = json_decode($body['json'], true);
             
             // TODO: authenticate and set user_id

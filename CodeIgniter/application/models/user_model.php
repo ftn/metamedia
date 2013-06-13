@@ -20,7 +20,7 @@ class User_model extends CI_Model {
     public function getActiveById($userId) {
         $this->db->where('id', $userId);
         $this->db->where('status', 1);
-        $query = $this->db->get($this::TABLE);
+        $query = $this->db->get(self::TABLE);
         return $query->result();
     }
 

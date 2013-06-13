@@ -18,7 +18,7 @@ class Axis_model extends CI_Model {
     
     public function get_all() {
         $this->db->where('status', '1');
-        $query = $this->db->get($this::TABLE);
+        $query = $this->db->get(self::TABLE);
         return $query->result();
     }
 

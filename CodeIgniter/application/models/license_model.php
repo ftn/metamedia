@@ -15,13 +15,13 @@ class License_model extends CI_Model {
     }
     
     public function get_all() {
-        $query = $this->db->get($this::TABLE);
+        $query = $this->db->get(self::TABLE);
         return $query->result();
     }
     
     public function getById($licenseId) {
         $this->db->where('id', $licenseId);
-        $query = $this->db->get($this::TABLE);
+        $query = $this->db->get(self::TABLE);
         $results = $query->result();
         return $results[0];
     }
