@@ -4,15 +4,18 @@
 # License: GNU GPLv3
 
 import collections
+import ConfigParser
 import json
+import os.path
 import requests
+
+CONFIG_FILE = os.path.join(os.path.dirname(__file__), 'rss.conf')
 
 class MetaMedia(object):
     """ Python interface to the MetaMedia API """
 
-    AXES_URL = "http://localhost/index.php/api/get-axes"
-    LICENSES_URL = "http://localhost/index.php/api/get-licenses"
-    PUT_MEDIA_URL = "http://localhost/index.php/api/put-media"
+    config = ConfigParser.ConfigParser()
+    config.read(CONFIG_FILE)
 
     def __init__(self, user, password):
         self.auth_data = {'user' : user, 'password' : password}
@@ -22,8 +25,9 @@ class MetaMedia(object):
 
         data = 'json=' + json.dumps(self.auth_data)
         headers = {'Content-Type': 'application/json'}
+        url = self.config.get('urls', 'AXES_URL')
         kwargs = dict(headers=headers, data=data)
-        r = requests.get(self.AXES_URL, **kwargs)
+        r = requests.get(url, **kwargs)
         axes = r.json()
 
         Axis = collections.namedtuple('Axis', axes[0].keys())
@@ -35,8 +39,9 @@ class MetaMedia(object):
 
         data = 'json=' + json.dumps(self.auth_data)
         headers = {'Content-Type': 'application/json'}
+        url = self.config.get('urls', 'LICENSES_URL')
         kwargs = dict(headers=headers, data=data)
-        r = requests.get(self.LICENSES_URL, **kwargs)
+        r = requests.get(url, **kwargs)
         licenses = r.json()
 
         License = collections.namedtuple('License', licenses[0].keys())
@@ -64,8 +69,9 @@ class MetaMedia(object):
         request_data.update(self.auth_data)
         data = 'json=' + json.dumps(request_data)
         headers = {'Content-Type': 'application/json'}
+        url = self.config.get('urls', 'PUT_MEDIA_URL')
         kwargs = dict(headers=headers, data=data)
-        requests.put(self.PUT_MEDIA_URL, **kwargs)
+        requests.put(url, **kwargs)
 
 if __name__ == "__main__":
 
