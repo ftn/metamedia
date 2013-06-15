@@ -17,6 +17,40 @@ def strip_html(html):
     text = ''.join(soup.findAll(text=True))
     return text
 
+def query_yes_no(question, default = True):
+    """ Ask a question and force a yes (True) or no (False) response.
+
+    Use raw_input() to prompt a question and return True or False depending on
+    the user's response (yes and no, respectively). If 'default' is given, it
+    is returned if the user does not type anything. This is a modified version
+    of a function with the same name in the Raspbmc installation script [1],
+    which is in turn adapted from an ActiveState recipe [2].
+
+    [1] http://svn.stmlabs.com/svn/raspbmc/release/installers/python/install.py
+    [2] http://code.activestate.com/recipes/577058-query-yesno/
+
+    """
+
+    valid = {'yes': True, 'y': True, 'ye': True, 'no': False, 'n': False}
+
+    if default == None:
+        prompt = " [y/n]"
+    elif default:
+        prompt = " [Y/n]"
+    else:
+        prompt = " [y/N]"
+
+    while True:
+        print question + prompt,
+        choice = raw_input().lower()
+        if default is not None and choice == '':
+            return default
+        elif choice in valid.keys():
+            return valid[choice]
+        else:
+            print "Please respond with 'yes' or 'no' (or 'y' or 'n')"
+            print
+
 if __name__ == "__main__":
 
     url = sys.argv[1]
