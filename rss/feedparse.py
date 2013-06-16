@@ -4,6 +4,8 @@
 # License: GNU GPLv3
 
 import feedparser
+import getpass
+import metamedia
 import sys
 
 from BeautifulSoup import BeautifulStoneSoup
@@ -81,6 +83,13 @@ if __name__ == "__main__":
 
     url = sys.argv[1]
     feed = feedparser.parse(url)
+
+    print "MetaMedia RSS Client"
+    user = raw_input("User: ")
+    password = getpass.getpass()
+    print
+
+    db = metamedia.MetaMedia(user, password)
 
     for entry in feed.entries:
         print entry.title
