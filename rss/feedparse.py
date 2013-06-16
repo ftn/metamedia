@@ -5,6 +5,7 @@
 
 import feedparser
 import getpass
+import language
 import metamedia
 import readline
 import sys
@@ -78,6 +79,33 @@ def query_axis_position(axis_name, left_term, right_term):
 
         except ValueError:
             print "Position along axes must be in range [-10, 10]"
+            print
+
+def query_language(question, default = None):
+    """ Ask a question and require the user to type a valid language.
+
+    Use raw_input() to repeatedly prompt a question until the user's response
+    matches the name of a language (e.g., 'english') or its two- ('en' ) or
+    three-letter (bibliographic) code ('eng'). See language.get_iso639() for
+    more information on the valid language codes. Returns the ISO 639-1
+    upper-case two-letter code (such as 'EN') of the specified language. If
+    'default' is given, it is returned if the user does not type anything.
+
+    """
+
+    prompt = question
+    if default:
+        prompt += " [%s]" % default
+    prompt += ": "
+
+    while True:
+        choice = raw_input(prompt).lower()
+        if not choice and default is not None:
+            choice = default
+        try:
+            return language.get_iso639(choice)
+        except KeyError:
+            print "Unknown language"
             print
 
 def rlinput(prompt, default = ''):
