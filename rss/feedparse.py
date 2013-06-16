@@ -6,6 +6,7 @@
 import feedparser
 import getpass
 import metamedia
+import readline
 import sys
 
 from BeautifulSoup import BeautifulStoneSoup
@@ -78,6 +79,23 @@ def query_axis_position(axis_name, left_term, right_term):
         except ValueError:
             print "Position along axes must be in range [-10, 10]"
             print
+
+def rlinput(prompt, default = ''):
+    """ Like raw_input(), but the default can be edited.
+
+    The standard library functions input() and raw_input() do not have this
+    functionality, so we use the readline module to define an input function
+    that uses a prefill value and advanced line editing. The credit for this
+    function goes to user 'sth' on Stack Overflow:
+    http://stackoverflow.com/a/2533142/184363
+
+    """
+
+    readline.set_startup_hook(lambda: readline.insert_text(default))
+    try:
+        return raw_input(prompt)
+    finally:
+        readline.set_startup_hook()
 
 if __name__ == "__main__":
 
