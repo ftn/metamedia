@@ -18,7 +18,7 @@ def get_iso639(name):
 
     """
 
-    name = name.strip()
+    name = name.strip().lower()
     if len(name) == 2:
         kwargs = dict(alpha2 = name)
     elif len(name) == 3:
@@ -39,11 +39,14 @@ class TestLanguageFunctions(unittest.TestCase):
             self.assertEqual('EN', get_iso639(name))
 
         test_english('en')
+        test_english('EN')
         test_english('eng')
+        test_english('ENG')
         test_english('english')
         test_english('english ')
         test_english(' english')
         test_english('English')
+        test_english('ENGLISH')
         test_english('eNGLiSH')
 
         def test_german(name):
@@ -51,11 +54,14 @@ class TestLanguageFunctions(unittest.TestCase):
             self.assertEqual('DE', get_iso639(name))
 
         test_german('de')
+        test_german('DE')
         test_german('ger')
+        test_german('GER')
         test_german('german')
         test_german('german ')
         test_german(' german ')
         test_german('German')
+        test_german('GERMAN')
         test_german('gErmAn')
 
         self.assertRaises(KeyError, get_iso639, 'Nadsat')
