@@ -11,7 +11,10 @@ CREATE TABLE mm_axis (
 	left_term VARCHAR(100) NOT NULL,
 	right_term VARCHAR(100) NOT NULL,
 	status TINYINT UNSIGNED NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+    UNIQUE (name),
+    UNIQUE (left_term),
+    UNIQUE (right_term)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /* mm_user: store the user information. There is not much to say here,
@@ -27,7 +30,9 @@ CREATE TABLE mm_user (
 	email VARCHAR(100) NOT NULL,
 	language VARCHAR(2) NOT NULL,
 	status TINYINT UNSIGNED NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+    UNIQUE (name),
+    UNIQUE (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /* mm_license: the copyright license under which a media is published.
@@ -41,7 +46,8 @@ CREATE TABLE mm_license (
         name VARCHAR(100) NOT NULL,
         url VARCHAR(2083) NOT NULL,
         allows_commercial BOOLEAN NOT NULL,
-	PRIMARY KEY (id)
+	PRIMARY KEY (id),
+    UNIQUE (name)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /* mm_media: medias (such as an article on a newspaper or a video on

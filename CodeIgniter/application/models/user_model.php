@@ -2,6 +2,8 @@
 
 if (! defined('BASEPATH')) exit('No direct script access allowed');
 
+require 'application/libraries/password.php';
+
 class User_model extends CI_Model {
     const TABLE = 'mm_user';
     
@@ -21,7 +23,40 @@ class User_model extends CI_Model {
         $this->db->where('id', $userId);
         $this->db->where('status', 1);
         $query = $this->db->get(self::TABLE);
-        return $query->result();
+        $result = $query->result();
+        return $result[0];
+    }
+    
+    public function getActiveByName($name) {
+        $this->db->where('name', $name);
+        $this->db->where('status', 1);
+        $query = $this->db->get(self::TABLE);
+        $result = $query->result();
+        return $result[0];
+    }
+    
+    public function save($name, $email, $language, $password) {
+        $this->setName($name);
+        $this->setEmail($email);
+        $this->setLanguage($language);
+        $this->setStatus(1);
+        $salt = substr(base64_encode(openssl_random_pseudo_bytes(32)), 0, 32);
+        
+        $this->setPasswordSalt($salt);
+        $this->setPasswordHash(password_hash($password, PASSWORD_BCRYPT, array('salt' => $salt.chr(0))));
+        
+        $this->db->set(get_object_vars($this));
+        $this->db->insert(self::TABLE);
+    }
+    
+    public function isValidPassword($name, $password) {
+        $this->db->where('name', $name);
+        $query = $this->db->get(self::TABLE);
+        $user = $query->result();
+        $user = $user[0];
+        
+        $hash = password_hash($password, PASSWORD_BCRYPT, array('salt' => $user->password_salt.chr(0)));
+        return $user->password_hash == $hash;
     }
 
     public function setId($id) {

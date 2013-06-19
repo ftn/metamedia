@@ -18,16 +18,18 @@ class Api extends CI_Controller {
         if (($_SERVER['REQUEST_METHOD'] == 'GET') && ($_SERVER["CONTENT_TYPE"] == 'application/json')) {
             parse_str(file_get_contents('php://input'),$body);
             if (get_magic_quotes_gpc()) {
-				$body['json'] = stripslashes($body['json']);
-			}
+                $body['json'] = stripslashes($body['json']);
+            }
             $jsonVars = json_decode($body['json'], true);
             
-            // TODO: authenticate
-            // print_r($jsonVars['user']);
-            // print_r($jsonVars['password']);
-
-            $this->load->model('axis_model');
-            print_r(json_encode($this->axis_model->get_all()));
+            $this->load->model('user_model');
+            
+            if ($this->user_model->isValidPassword($jsonVars['name'], $jsonVars['password'])) {
+                $this->load->model('axis_model');
+                print_r(json_encode($this->axis_model->get_all()));
+            }
+            
+            
         }
     }
 
@@ -35,16 +37,16 @@ class Api extends CI_Controller {
         if (($_SERVER['REQUEST_METHOD'] == 'GET') && ($_SERVER["CONTENT_TYPE"] == 'application/json')) {
             parse_str(file_get_contents('php://input'),$body);
             if (get_magic_quotes_gpc()) {
-				$body['json'] = stripslashes($body['json']);
-			}
+                $body['json'] = stripslashes($body['json']);
+            }
             $jsonVars = json_decode($body['json'], true);
             
-            // TODO: authenticate
-            // print_r($jsonVars['user']);
-            // print_r($jsonVars['password']);
-
-            $this->load->model('license_model');
-            print_r(json_encode($this->license_model->get_all()));
+            $this->load->model('user_model');
+            
+            if ($this->user_model->isValidPassword($jsonVars['name'], $jsonVars['password'])) {
+                $this->load->model('license_model');
+                print_r(json_encode($this->license_model->get_all()));
+            }
         }
     }
 
@@ -52,34 +54,49 @@ class Api extends CI_Controller {
         if (($_SERVER['REQUEST_METHOD'] == 'PUT') && ($_SERVER["CONTENT_TYPE"] == 'application/json')) {
             parse_str(file_get_contents('php://input'),$body);
             if (get_magic_quotes_gpc()) {
-				$body['json'] = stripslashes($body['json']);
-			}
+            	$body['json'] = stripslashes($body['json']);
+            }
             $jsonVars = json_decode($body['json'], true);
             
-            // TODO: authenticate and set user_id
-            // print_r($jsonVars['user']);
-            // print_r($jsonVars['password']);
+            $this->load->model('user_model');
             
-            $this->load->model('media_model');
-            $this->load->model('license_model');
-            // TODO: set user_id
+            if ($this->user_model->isValidPassword($jsonVars['name'], $jsonVars['password'])) {
+                $this->load->model('media_model');
+                $this->load->model('license_model');
+
+                $license = $this->license_model->getById($jsonVars['license-id']);
+                
+                $user = $this->user_model->getActiveByName($jsonVars['name']);
+
+                $media = new Media_model(
+                            $jsonVars['type'], 
+                            $jsonVars['title'], 
+                            $jsonVars['excerpt'], 
+                            $jsonVars['content'], 
+                            $jsonVars['original-creator'], 
+                            $jsonVars['original-url'], 
+                            $license->id, 
+                            $license->name, 
+                            $jsonVars['language'], 
+                            $user->id, 
+                            Media_model::STATUS_ACTIVE
+                        );
+                $media->save();
+            }
+        }
+    }
+    
+    public function putUser() {
+        if (($_SERVER['REQUEST_METHOD'] == 'PUT') && ($_SERVER["CONTENT_TYPE"] == 'application/json')) {
+            parse_str(file_get_contents('php://input'),$body);
+            if (get_magic_quotes_gpc()) {
+                $body['json'] = stripslashes($body['json']);
+            }
+            $jsonVars = json_decode($body['json'], true);
             
-            $license = $this->license_model->getById($jsonVars['license-id']);
+            $this->load->model('user_model');
             
-            $media = new Media_model(
-                        $jsonVars['type'], 
-                        $jsonVars['title'], 
-                        $jsonVars['excerpt'], 
-                        $jsonVars['content'], 
-                        $jsonVars['original-creator'], 
-                        $jsonVars['original-url'], 
-                        $license->id, 
-                        $license->name, 
-                        $jsonVars['language'], 
-                        1, 
-                        Media_model::STATUS_ACTIVE
-                    );
-            $media->save();
+            $this->user_model->save($jsonVars['name'], $jsonVars['email'], $jsonVars['language'], $jsonVars['password']); 
         }
     }
 }
