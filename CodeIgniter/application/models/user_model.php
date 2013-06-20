@@ -27,8 +27,8 @@ class User_model extends CI_Model {
         return $result[0];
     }
     
-    public function getActiveByName($name) {
-        $this->db->where('name', $name);
+    public function getActiveByEmail($email) {
+        $this->db->where('email', $email);
         $this->db->where('status', 1);
         $query = $this->db->get(self::TABLE);
         $result = $query->result();
@@ -40,7 +40,12 @@ class User_model extends CI_Model {
         $this->setEmail($email);
         $this->setLanguage($language);
         $this->setStatus(1);
-        $salt = substr(base64_encode(openssl_random_pseudo_bytes(32)), 0, 32);
+        
+        if (function_exists('openssl_random_pseudo_bytes')) {
+            $salt = substr(base64_encode(openssl_random_pseudo_bytes(32)), 0, 32);
+        } else if (function_exists('mcrypt_create_iv')) {
+            $salt = substr(base64_encode(mcrypt_create_iv(32, MCRYPT_RAND)), 0, 32);
+        }
         
         $this->setPasswordSalt($salt);
         $this->setPasswordHash(password_hash($password, PASSWORD_BCRYPT, array('salt' => $salt.chr(0))));

@@ -66,7 +66,7 @@ class Api extends CI_Controller {
 
                 $license = $this->license_model->getById($jsonVars['license-id']);
                 
-                $user = $this->user_model->getActiveByName($jsonVars['name']);
+                $user = $this->user_model->getActiveByEmail($jsonVars['email']);
 
                 $media = new Media_model(
                             $jsonVars['type'], 
