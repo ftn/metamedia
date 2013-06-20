@@ -24,7 +24,7 @@ class Api extends CI_Controller {
             
             $this->load->model('user_model');
             
-            if ($this->user_model->isValidPassword($jsonVars['name'], $jsonVars['password'])) {
+            if ($this->user_model->isValidPassword($jsonVars['email'], $jsonVars['password'])) {
                 $this->load->model('axis_model');
                 print_r(json_encode($this->axis_model->get_all()));
             }
@@ -43,7 +43,7 @@ class Api extends CI_Controller {
             
             $this->load->model('user_model');
             
-            if ($this->user_model->isValidPassword($jsonVars['name'], $jsonVars['password'])) {
+            if ($this->user_model->isValidPassword($jsonVars['email'], $jsonVars['password'])) {
                 $this->load->model('license_model');
                 print_r(json_encode($this->license_model->get_all()));
             }
@@ -60,7 +60,7 @@ class Api extends CI_Controller {
             
             $this->load->model('user_model');
             
-            if ($this->user_model->isValidPassword($jsonVars['name'], $jsonVars['password'])) {
+            if ($this->user_model->isValidPassword($jsonVars['email'], $jsonVars['password'])) {
                 $this->load->model('media_model');
                 $this->load->model('license_model');
 

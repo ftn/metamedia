@@ -49,8 +49,8 @@ class User_model extends CI_Model {
         $this->db->insert(self::TABLE);
     }
     
-    public function isValidPassword($name, $password) {
-        $this->db->where('name', $name);
+    public function isValidPassword($email, $password) {
+        $this->db->where('email', $email);
         $query = $this->db->get(self::TABLE);
         $user = $query->result();
         $user = $user[0];
