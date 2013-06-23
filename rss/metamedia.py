@@ -17,8 +17,8 @@ class MetaMedia(object):
     config = ConfigParser.ConfigParser()
     config.read(CONFIG_FILE)
 
-    def __init__(self, user, password):
-        self.auth_data = {'user' : user, 'password' : password}
+    def __init__(self, email, password):
+        self.auth_data = {'email' : email, 'password' : password}
 
     def get_axes(self):
         """ A generator that yields the axes as named tuples """

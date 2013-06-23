@@ -131,11 +131,11 @@ if __name__ == "__main__":
     feed = feedparser.parse(url)
 
     print "MetaMedia RSS Client"
-    user = raw_input("User: ")
+    email = raw_input("Email: ")
     password = getpass.getpass()
     print
 
-    db = metamedia.MetaMedia(user, password)
+    db = metamedia.MetaMedia(email, password)
 
     for entry in feed.entries:
         print entry.title
