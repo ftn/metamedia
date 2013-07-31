@@ -101,6 +101,25 @@ class MetaMedia(object):
         kwargs = dict(headers=headers, data=data)
         requests.put(url, **kwargs)
 
+    def add_user(self, username, password, email, language):
+        """ Add a user to the database.
+
+        The password must be given in plain text (not encrypted), while
+        'language' must be a string with the upper-case two-letter code
+        ('EN', 'DE', 'ES') of the users' preferred language.
+
+        """
+
+        request_data = {'name' : username, 'password' : password,
+                        'email' : email, 'language' : language}
+
+        data = 'json=' + json.dumps(request_data)
+        headers = {'Content-Type': 'application/json'}
+        url = self.config.get('urls', 'PUT_USER_URL')
+        kwargs = dict(headers=headers, data=data)
+        requests.put(url, **kwargs)
+
+
 if __name__ == "__main__":
 
     metamedia = MetaMedia('anonymous', 'qwerty')
