@@ -12,6 +12,11 @@ import simplejson.decoder
 
 CONFIG_FILE = os.path.join(os.path.dirname(__file__), 'rss.conf')
 
+class AuthenticationError(ValueError):
+    """ Raised if the user email or password are incorrect """
+    pass
+
+
 class MetaMedia(object):
     """ Python interface to the MetaMedia API """
 
@@ -39,6 +44,9 @@ class MetaMedia(object):
 
     def __init__(self, email, password):
         self.auth_data = {'email' : email, 'password' : password}
+        if not self._validate_user_login():
+            msg = "email or password are incorrect"
+            raise AuthenticationError(msg)
 
     def get_axes(self):
         """ A generator that yields the axes as named tuples """
