@@ -8,6 +8,7 @@ import ConfigParser
 import json
 import os.path
 import requests
+import simplejson.decoder
 
 CONFIG_FILE = os.path.join(os.path.dirname(__file__), 'rss.conf')
 
@@ -16,6 +17,25 @@ class MetaMedia(object):
 
     config = ConfigParser.ConfigParser()
     config.read(CONFIG_FILE)
+
+    def _validate_user_login(self):
+        """ Return True if the user credentials are valid, False otherwise.
+
+        This is a temporary solution to validate the user email and password:
+        it calls MetaMedia.get_axes() and catches the JSONDecodeError exception
+        that is raised when nothing is returned (because of an incorrect email
+        or password). It could be the case, of course, that there were no axes
+        in the database, but until a method that explicitly validates the
+        credentials is implemented this approach works sufficiently well.
+
+        """
+
+        try:
+            self.get_axes().next()
+            return True
+        # JSONDecodeError: "No JSON object could be decoded"
+        except simplejson.decoder.JSONDecodeError:
+            return False
 
     def __init__(self, email, password):
         self.auth_data = {'email' : email, 'password' : password}
